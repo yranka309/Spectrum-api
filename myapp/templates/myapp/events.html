@@ -1,0 +1,342 @@
+{% extends "myapp/home.html" %}
+
+{% block event %}
+{% load static %}
+<!-- <style>
+.img-frame {
+      padding:1px;
+   border:1px solid #021a40;
+   height:100%;
+   width:100%;
+</style> -->
+<div id="events" class="container-fluid " style="padding-top:70px;padding-bottom:70px;">
+      <h1 class="text-center">Events</h1>
+      <hr>
+
+
+      <div class="row col-md-12 m-auto justify-content-md-center" id="backevent">
+
+            {% for event,token,ev,rr,eeee in mylist %}
+
+            <div class="col-md-3 animated rollIn " style="padding:30px; ">
+
+
+                  <p class="text-center container-fluid" style="text-transform: uppercase;font-size:30px; color:white;"> {{ eeee }}</p>
+
+
+                  {% for er in eventa %}
+                  {% if er.name == event %}
+                  <div data-toggle="modal" data-target="#{{ event }}ji">
+                        <div class="hovereffect">
+                              <img class="img-fluid mx-auto d-block img-frame" src="/static/images/{{ event }}.jpg" alt="">
+                              <div class="overlay">
+                                    <div class="text-center container-fluid" id="e" style="font-weight: bold;"> {{ eeee }}</div>
+                                    <a class="info" href="#{{ event }}j">Details</a>
+                              </div>
+                        </div>
+                  </div>
+
+                  {% endif %}
+                  {% endfor %}
+
+                  {% if user.is_authenticated and event != 'guest_lecture' %}
+                  {% if token == '0' %}
+                  {% if event not in single %}
+                  <button href="#create" id="{{ event }}" role="button" name="{{ event }}" class=" identifyingClass btn btn-primary btn-md container-fluid" data-toggle="modal">Create Team</button>
+                  <button href="#join" id="{{ event }}" role="button" class="identifyingClass btn btn-success btn-md container-fluid" data-toggle="modal" >Join Team</button>
+                  {% else %}
+                  <button onclick="sRegister()" id="{{ event }}" role="button" name="{{ event }}" class=" identifyingClass btn btn-primary btn-md container-fluid" data-toggle="modal" >Register</button>
+                  {% endif %}
+                  {% else %}
+                  {% if token == '1' %}
+
+                  {% if rr == '0' %}
+                  <div class="card container-fluid text-center bg-info">
+                        You have successfully reedeemed your coupon.
+                        Please rate your experience on scale of 5
+                  </div>
+                  <div class='rating-stars text-center'>
+                        <ul id='stars'>
+                              {% csrf_token %}
+                              <li  class='star {{ event }}' title='Poor' data-value='1'>
+                                    <i style="width:0.9em;padding:0 3px;"  class='fa fa-star fa-fw'></i>
+                              </li>
+                              <li  class='star {{ event }}' title='Fair' data-value='2'>
+                                    <i style="width:0.9em;padding:0 3px;"  class='fa fa-star fa-fw'></i>
+                              </li>
+                              <li class='star {{ event }}' title='Good' data-value='3'>
+                                    <i style="width:0.9em;padding:0 3px;" style="width:0.8em;" class='fa fa-star fa-fw'></i>
+                              </li>
+                              <li  class='star {{ event }}' title='Excellent' data-value='4'>
+                                    <i style="width:0.9em;padding:0 3px;" class='fa fa-star fa-fw'></i>
+                              </li>
+                              <li  class='star {{ event }}' title='WOW!!!' data-value='5'>
+                                    <i style="width:0.9em;padding:0 3px;"  class='fa fa-star fa-fw'></i>
+                              </li>
+                        </ul>
+                  </div>
+
+                  <div id="success-box" class='success-box' style="display: none;">
+                        <div class='clearfix'></div>
+                        <img alt='tick image' width='20' src='data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCA0MjYuNjY3IDQyNi42NjciIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQyNi42NjcgNDI2LjY2NzsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSI1MTJweCIgaGVpZ2h0PSI1MTJweCI+CjxwYXRoIHN0eWxlPSJmaWxsOiM2QUMyNTk7IiBkPSJNMjEzLjMzMywwQzk1LjUxOCwwLDAsOTUuNTE0LDAsMjEzLjMzM3M5NS41MTgsMjEzLjMzMywyMTMuMzMzLDIxMy4zMzMgIGMxMTcuODI4LDAsMjEzLjMzMy05NS41MTQsMjEzLjMzMy0yMTMuMzMzUzMzMS4xNTcsMCwyMTMuMzMzLDB6IE0xNzQuMTk5LDMyMi45MThsLTkzLjkzNS05My45MzFsMzEuMzA5LTMxLjMwOWw2Mi42MjYsNjIuNjIyICBsMTQwLjg5NC0xNDAuODk4bDMxLjMwOSwzMS4zMDlMMTc0LjE5OSwzMjIuOTE4eiIvPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K' />
+                        <div class='text-message text-center'></div>
+                        <div class='clearfix'></div>
+                        {% else %}
+                        <div class="text-center card container-fluid"><span>Thanks for
+                                    your feedback </span></div>
+                        <div class='success-box' >
+                              <div class='clearfix'></div>
+                              <img alt='tick image' width='20' src='data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTkuMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeD0iMHB4IiB5PSIwcHgiIHZpZXdCb3g9IjAgMCA0MjYuNjY3IDQyNi42NjciIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDQyNi42NjcgNDI2LjY2NzsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSI1MTJweCIgaGVpZ2h0PSI1MTJweCI+CjxwYXRoIHN0eWxlPSJmaWxsOiM2QUMyNTk7IiBkPSJNMjEzLjMzMywwQzk1LjUxOCwwLDAsOTUuNTE0LDAsMjEzLjMzM3M5NS41MTgsMjEzLjMzMywyMTMuMzMzLDIxMy4zMzMgIGMxMTcuODI4LDAsMjEzLjMzMy05NS41MTQsMjEzLjMzMy0yMTMuMzMzUzMzMS4xNTcsMCwyMTMuMzMzLDB6IE0xNzQuMTk5LDMyMi45MThsLTkzLjkzNS05My45MzFsMzEuMzA5LTMxLjMwOWw2Mi42MjYsNjIuNjIyICBsMTQwLjg5NC0xNDAuODk4bDMxLjMwOSwzMS4zMDlMMTc0LjE5OSwzMjIuOTE4eiIvPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8Zz4KPC9nPgo8L3N2Zz4K' />
+                              <div class='text-message text-center' ><span>You
+                                          have rated {{ rr }} out of 5</span></div>
+                              <div class='clearfix'></div>
+
+                              {% endif %}
+                        </div>
+                        {% else %}
+                        <a href="#event" role="button" class="btn btn-success btn-md disabled container-fluid" data-toggle="modal">Registered</a>
+                        <div class="row" id="{{ event }}verify">
+                              <div class="col-md-12">
+                                    <form class="row">
+                                          <div class="col-12 col-sm pr-sm-0">
+                                                <input type="hidden" id="{{event}}coinevent" val="{{ event }}">
+                                                <input type="text" name="coin" id="{{ event }}coin" placeholder="Enter the coupon Code to Reedem" class="form-control">
+                                          </div>
+                                          <div class="col-12 col-sm-auto pl-sm-0">
+                                                <button type="submit" name="{{ event }}coin" class="  btn btn-primary btn-block">GetCoin</button>
+                                          </div>
+                                    </form>
+                              </div>
+                        </div>
+                        {% endif %}
+
+                        {% endif %}
+                        {% endif %}
+
+
+
+                  </div>
+                  <div class="modal fade" id="{{ event }}ji">
+                        <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content">
+                                    <div class="modal-header">
+                                          {% if event == 'buffet_money' %}
+                                          <h4 class="text-center" style="text-transform: uppercase;"> Bull Stock 2.0</h4>
+                                          {% else %}
+                                          <h4 class="text-center" style="text-transform: uppercase;"> {{ eeee }}</h4>
+                                          {% endif %}
+                                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+
+                                    <div class="modal-body container-fluid">
+                                          {% for er in eventa %}
+                                          {% if er.name == event %}
+                                          <div id="accordion{{ event }}">
+                                                <div class="card">
+                                                      <div class="container-fluid">
+                                                            <button type="button" class="btn-lg btn bg-light container-fluid"
+                                                                  data-toggle="collapse" data-target="#about{{ event }}">
+                                                                  ABOUT
+                                                            </button>
+                                                      </div>
+                                                      <div id="about{{ event }}" class="collapse" data-parent="#accordion{{ event }}">
+                                                            <div class="card-body">
+                                                                  {{ er.eventrules.about|safe }}
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                                <div class="card">
+                                                      <div class="container-fluid ">
+                                                            <button type="button" class="btn-lg btn bg-light container-fluid"
+                                                                  data-toggle="collapse" data-target="#rules{{ event }}">
+                                                                  RULES
+                                                            </button>
+                                                      </div>
+                                                      <div id="rules{{ event }}" class="collapse" data-parent="#accordion{{ event }}">
+                                                            <div class="card-body">
+                                                                  {{ er.eventrules.rules|safe }}
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                                <div class="card">
+                                                      <div class="container-fluid">
+                                                            <button type="button" class="btn-lg btn bg-light container-fluid"
+                                                                  data-toggle="collapse" data-target="#judge{{ event }}">
+                                                                  JUDGING CRITERIA
+                                                            </button>
+                                                      </div>
+                                                      <div id="judge{{ event }}" class="collapse" data-parent="#accordion{{ event }}">
+                                                            <div class="card-body">
+                                                                  {{ er.eventrules.judging|safe }}
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                                <div class="card">
+                                                      <div class="container-fluid">
+                                                            <button type="button" class="btn-lg btn bg-light container-fluid"
+                                                                  data-toggle="collapse" data-target="#prize{{ event }}">
+                                                                  PRIZES
+                                                            </button>
+                                                      </div>
+                                                      <div id="prize{{ event }}" class="collapse" data-parent="#accordion{{ event }}">
+                                                            <div class="card-body">
+                                                                  {{ er.eventrules.prizes|safe }}
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                                <div class="card">
+                                                      <div class="container-fluid">
+                                                            <button type="button" class="btn-lg btn bg-light container-fluid"
+                                                                  data-toggle="collapse" data-target="#contact{{ event }}">
+                                                                  CONTACT
+                                                            </button>
+                                                      </div>
+                                                      <div id="contact{{ event }}" class="collapse" data-parent="#accordion{{ event }}">
+                                                            <div class="card-body">
+                                                                  {{ er.eventrules.contacts|safe }}
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                          {% endif %}
+                                          {% endfor %}
+                                    </div>
+                                    <div class="modal-footer">
+                                          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                              </div>
+                        </div>
+
+                  </div>
+                  {% endfor %}
+
+            </div>
+
+      </div>
+      <div id="create" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                        <div class="modal-header">
+                              <h3>Create a Team</h3>
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body">
+                              <form class="form" role="form" autocomplete="off" id="registerevent" novalidate="" method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                          <p>Create a team and tell your other team members to join your team by
+                                                entering the same team name</p>
+                                          <label for="id_team_name">Team Name</label>
+                                          <input placeholder="Team Name" type="text" class="form-control form-control-lg"
+                                                name="team_name" id="id_team_name" required>
+                                          <div class="invalid-feedback">Oops, you missed this one.</div>
+                                    </div>
+                                    <div class="form-group py-4">
+                                          <button class="btn btn-outline-secondary btn-lg" data-dismiss="modal"
+                                                aria-hidden="true">Cancel</button>
+                                          <button type="submit" class="btn btn-success btn-lg float-right" id="btneventregister">Submit</button>
+                                    </div>
+                              </form>
+                        </div>
+                  </div>
+            </div>
+      </div>
+      <div id="join" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                        <div class="modal-header">
+                              <h3>Join a Team</h3>
+                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        </div>
+                        <div class="modal-body">
+                              <form class="form" role="form" autocomplete="off" id="registerevent" novalidate="" method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                          <p>Enter the team name created by your team leader</p>
+                                          <label for="id_team_name">Team Name</label>
+                                          <input placeholder="Team Name" type="text" class="form-control form-control-lg"
+                                                name="team" id="id_team" required>
+                                          <div class="invalid-feedback">Oops, you missed this one.</div>
+                                    </div>
+                                    <div class="form-group py-4">
+                                          <button class="btn btn-outline-secondary btn-lg" data-dismiss="modal"
+                                                aria-hidden="true">Cancel</button>
+                                          <button type="submit" class="btn btn-success btn-lg float-right" id="btneventsregister">Submit</button>
+                                    </div>
+                              </form>
+                        </div>
+                  </div>
+            </div>
+      </div>
+
+      <input id="useme" val="lolo" type="hidden">
+      <input id="stardata" val="" type="hidden">
+      <script type="text/javascript">
+            $(".identifyingClass").click(function () {
+                  // alert(this.id); // or alert($(this).attr('id'));
+                  $('#useme').val(this.id)
+            });
+            $("#btneventregister").click(function (event) {
+
+                  //Fetch form to apply custom Bootstrap validation
+                  var form = $("#create")
+
+                  if (form[0].checkValidity() === false) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                  }
+                  form.addClass('was-validated');
+
+            });
+
+            $("#stars li").click(function () {
+                  var myClass = this.classList;
+                  $('#stardata').val(myClass[1]);
+            });
+
+
+            function sRegister() {
+                  var txt;
+                  var r = confirm("Do you want to resgister for this event");
+                  if (r == true) {
+                        $.ajax({
+                              type: 'POST',
+                              url: '/web/eventregister',
+                              data: {
+                                    team_name: 'none',
+                                    event: $('#useme').val(),
+                                    adm: "897",
+                                    csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val(),
+                              },
+                              success: function (response) {
+                                    if (response == 'Success') {
+                                          window.location.href = "/";
+                                          alert(
+                                                'Registered Successfuly.Participate to get the coupon'
+                                          )
+                                    } else if (response == 'Already') {
+                                          alert('This team has been already created.')
+                                    } else if (response == 'ncreated') {
+                                          alert(
+                                                'This team is not created so can not not join this Team.'
+                                          )
+                                    } else if (response == 'Full') {
+                                          alert('This Team is full')
+                                    } else {
+                                          alert(response);
+                                    }
+                              },
+                              error: function (xhr) {
+                                    alert(`An erroe occcured: ` + xhr.status + " " + xhr.statusText +
+                                          " " + xhr.responseText);
+                              }
+                        })
+                  } else {
+                        txt = "You pressed Cancel!";
+                  }
+                  document.getElementById("demo").innerHTML = txt;
+            }
+      </script>
+
+
+      {% endblock event %}

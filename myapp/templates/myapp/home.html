@@ -1,0 +1,702 @@
+{% extends "myapp/base.html" %}
+{% block content %}
+<!-- <script>
+  $(document).ready(function () {
+    var height = $(".contentleft").height();
+    //$(".contentleft").height(height);
+    $(".userslist ").height(height);
+  });
+</script> -->
+{% if user.is_authenticated %}
+<div class="row justify-content-md-center" style="width:100%;margin:0 auto;">
+  <div class="col-md-3 border border-primary" style="padding-top: 74px; background-color:lightgray;width:99%;margin:0 auto;">
+    <div class="container profile-container" style="margin:0 auto;">
+      <div class="row ">
+        <div class="col-md-6 img">
+          <img src="{{ user.userprofile.imageurl }}" alt="" class="img-rounded" style="max-width:200px;max-height:300px;">
+          <p><a href="/web/profile" class="profile-button">Profile</a></p>
+        </div>
+        <div class="col-md-6 details">
+
+          <blockquote>
+            <h5>{{ user.userprofile.name }}</h5>
+            <small><cite title="Source Title">{{ user.userprofile.admission }} <i class="icon-map-marker"></i></cite></small>
+          </blockquote>
+          <p>
+            Bucks<br>
+            {{ user.userprofile.coins }}<br>
+            Current Ranking:{{ ru }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-9 " style="">
+    <div id="about" class="container-fluid about" style="padding-top:70px;padding-bottom:70px;">
+      <!--  <h1 class="text-center">Home</h1>
+      <h2 class="text-center">Vibhav is coming....</h2>
+      <div class="container countdown-cont align-center">
+        <div class="daysCountdown" title="Days"></div>
+        <div class="hoursCountdown" title="Hours"></div>
+        <div class="minutesCountdown" title="Minutes"></div>
+        <div class="secondsCountdown" title="Seconds"></div>
+        <div class="countdown pt-5 mt-2" data-due-date="2019/01/19">
+        </div>
+      </div> -->
+
+      <div class="contentleft">
+        <ul class="pagination pagination-lg justify-content-center">
+          <li id="av" class="a page-item active"><a class=" page-link" href="javascript:void(0);" onclick="showfunc1()">About
+              Vibhav</a></li>
+          <li id="ae" class="b page-item"><a class=" page-link" href="javascript:void(0);" onclick="showfunc2()">About
+              EES</a></li>
+        </ul>
+
+        <div class="row justify-content-md-center ">
+          <div id="aboutvibhav" class="card  col-md-8 animated bounceIn " style="color:white;padding:10px;background-color:rgb(32, 32, 68);">
+            Vibhav 2K18 is the Annual Technical Event of Electrical Engineering Society.
+            We aim to bring together the students of different departments to develop new break-throughs in thier
+            respective fields of interest that might later help to bring about a revolution in that field.
+            We wish to provide a platform for students to present thier ideas and showcase thier talents in front
+            of best in the country.
+            The event spans across an entire day of intense contests,challenging problems and spectacular
+            presentations here in IIT(ISM) Dhanbad.
+            If you have got what it takes to stand out among the rest,we welcome you here at Vibhav.
+            Vibhav 2K18 is the Annual Technical Event of Electrical Engineering Society.
+            We aim to bring together the students of different departments to develop new break-throughs in thier
+            respective fields of interest that might later help to bring about a revolution in that field.
+            We wish to provide a platform for students to present thier ideas and showcase thier talents in front
+            of best in the country.
+            The event spans across an entire day of intense contests,challenging problems and spectacular
+            presentations here in IIT(ISM) Dhanbad.
+            If you have got what it takes to stand out among the rest,we welcome you here at Vibhav.
+          </div>
+        </div>
+        <div class="row justify-content-md-center">
+          <div id="aboutees" class="card  col-md-8 about animated bounceIn" style="display:none;color:white;padding:10px;opacity:1;background-color:rgb(32, 32, 68);">
+            The Electrical Engineering department is one of the latest of the existing departments in the School
+            and was formed in February 2005. The B.Tech. course in Electrical Engineering has been started in the
+            academic session 2006-07.
+
+            Though the Electrical Engineering department has been established only recently, the Electrical
+            Engineering Section existed in the School for over last 35 years. As a part of Mining Machinery
+            Engineering department, the Electrical Engineering Section was fully functional with teaching and R&D
+            activities from 1975. The B.Tech. Mining Machinery Engineering programme of the School comprised
+            about 30% of the Electrical Engineering input and subjects like Electrical Technology, Circuits &
+            Measurements, Electrical Machines & Control, Electrical Drives, Power Systems, Power Electronics,
+            Mining Electro-Technology had been taught to the B.Tech. Mining Machinery Engineering students from
+            1975 onwards by this Section. Beside this, the Electrical Engineering Section also catered to various
+            other Electrical Engineering subjects like Utilization of Electrical Energy, Applied Electrical
+            Engineering and Mining Electrical Engineering etc. to other departments. The Electrical Engineering
+            department has a history of strong R&D base and it has produced a number of M.Tech. and Ph.D.
+            students in Electrical & Electronics Engineering. It has also published a large number of research
+            papers in foreign and Indian Journals and conferences.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.js"></script>
+<div class="container-fluid" style="background-image: linear-gradient(#614385,#516395); padding-top:10px;">
+  <div class="container" >
+  <h2 class="text-center">Top 20 participants</h2>
+   <section class="customer-logos slider">
+     {% for rp,r in rppp %}
+      <div class="slide text-center ral" style="padding:5px 0px;"><img src="{{ rp.imageurl }}" width="200" height="120">{{ rp.admission }}<br>{{ rp.name }} <br>Rank:{{ r }}<br>Bucks {{ rp.coins }}</div>
+      {% endfor %}
+   </section>
+
+</div>
+</div>
+
+
+{% else %}
+<div id="about" class="container-fluid about" style="padding-top:70px;padding-bottom:70px;">
+  <!--  <h1 class="text-center">Home</h1>
+     <h2 class="text-center">Vibhav is coming....</h2>
+     <div class="container countdown-cont align-center">
+       <div class="daysCountdown" title="Days"></div>
+       <div class="hoursCountdown" title="Hours"></div>
+       <div class="minutesCountdown" title="Minutes"></div>
+       <div class="secondsCountdown" title="Seconds"></div>
+       <div class="countdown pt-5 mt-2" data-due-date="2019/01/19">
+       </div>
+     </div> -->
+
+    <ul class="pagination pagination-lg justify-content-center">
+      <li id="av" class="a page-item active"><a class=" page-link" href="javascript:void(0);" onclick="showfunc1()">About
+          Vibhav</a></li>
+      <li id="ae" class="b page-item"><a class=" page-link" href="javascript:void(0);" onclick="showfunc2()">About
+          EES</a></li>
+    </ul>
+
+    <div class="row justify-content-md-center ">
+      <div id="aboutvibhav" class="card  col-md-8 animated bounceIn " style="color:white;padding:10px;background-color:rgb(32, 32, 68);">
+        Vibhav 2K18 is the Annual Technical Event of Electrical Engineering Society.
+        We aim to bring together the students of different departments to develop new break-throughs in thier
+        respective fields of interest that might later help to bring about a revolution in that field.
+        We wish to provide a platform for students to present thier ideas and showcase thier talents in front
+        of best in the country.
+        The event spans across an entire day of intense contests,challenging problems and spectacular
+        presentations here in IIT(ISM) Dhanbad.
+        If you have got what it takes to stand out among the rest,we welcome you here at Vibhav.
+        Vibhav 2K18 is the Annual Technical Event of Electrical Engineering Society.
+        We aim to bring together the students of different departments to develop new break-throughs in thier
+        respective fields of interest that might later help to bring about a revolution in that field.
+        We wish to provide a platform for students to present thier ideas and showcase thier talents in front
+        of best in the country.
+        The event spans across an entire day of intense contests,challenging problems and spectacular
+        presentations here in IIT(ISM) Dhanbad.
+        If you have got what it takes to stand out among the rest,we welcome you here at Vibhav.
+      </div>
+    </div>
+    <div class="row justify-content-md-center">
+      <div id="aboutees" class="card  col-md-8 about animated bounceIn" style="display:none;color:white;padding:10px;opacity:1;background-color:rgb(32, 32, 68);">
+        The Electrical Engineering department is one of the latest of the existing departments in the School
+        and was formed in February 2005. The B.Tech. course in Electrical Engineering has been started in the
+        academic session 2006-07.
+
+        Though the Electrical Engineering department has been established only recently, the Electrical
+        Engineering Section existed in the School for over last 35 years. As a part of Mining Machinery
+        Engineering department, the Electrical Engineering Section was fully functional with teaching and R&D
+        activities from 1975. The B.Tech. Mining Machinery Engineering programme of the School comprised
+        about 30% of the Electrical Engineering input and subjects like Electrical Technology, Circuits &
+        Measurements, Electrical Machines & Control, Electrical Drives, Power Systems, Power Electronics,
+        Mining Electro-Technology had been taught to the B.Tech. Mining Machinery Engineering students from
+        1975 onwards by this Section. Beside this, the Electrical Engineering Section also catered to various
+        other Electrical Engineering subjects like Utilization of Electrical Energy, Applied Electrical
+        Engineering and Mining Electrical Engineering etc. to other departments. The Electrical Engineering
+        department has a history of strong R&D base and it has produced a number of M.Tech. and Ph.D.
+        students in Electrical & Electronics Engineering. It has also published a large number of research
+        papers in foreign and Indian Journals and conferences.
+      </div>
+    </div>
+  </div>
+<div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.js"></script>
+    <div class="container-fluid" style="background-image: linear-gradient(#614385,#516395); padding-top:10px;">
+      <div class="container" >
+      <h2 class="text-center">Top 20 participants</h2>
+       <section class="customer-logos slider">
+         {% for rp,r in rppp %}
+          <div class="slide text-center" style="padding:5px 0px;"><img src="{{ rp.imageurl }}" width="200" height="120">{{ rp.admission }} <br>{{ rp.name }}<br>Rank:{{ r }}<br>Bucks {{ rp.coins }}</div>
+          {% endfor %}
+       </section>
+
+    </div>
+    </div>
+    {% endif %}
+    <!-- Events -->
+
+    {% block event %}
+    {% endblock event %}
+
+    <!-- schedule -->
+    <div id="schedule" class="schedule container-fluid " style="padding-top:70px;padding-bottom:70px;">
+      <h1 class="text-center">Schedule</h1>
+      <hr>
+      <ul class="pagination pagination-lg justify-content-center">
+        <li id="d1" class=" page-item active"><a class=" page-link" href="javascript:void(0);" onclick="showday1()">DAY1
+          </a></li>
+        <li id="d2" class=" page-item"><a class=" page-link" href="javascript:void(0);" onclick="showday2()">DAY2</a></li>
+      </ul>
+
+      <div id="day1" class="timeline">
+
+        <div class="tcontainer tleft">
+          <div class="tcontent">
+            <h2>Opening Ceremony</h2>
+            <p>Time:- 09:00 a.m.-10:30 a.m.</p><br>
+            <p>Venue:- GJLT   </p>
+          </div>
+        </div>
+        <div class="tcontainer tright">
+          <div class="tcontent">
+            <h2>Robo Soccer 2.0</h2>
+            <p>Time:-<br>08:30 a.m-09:00 a.m<br>10:30 a.m.-12:30 p.m<br>01:30 p.m.-07:00 p.m</p><br>
+            <p>Venue:- NLHC    </p>
+          </div>
+        </div>
+        <div class="tcontainer tleft">
+          <div class="tcontent">
+            <h2>Laser maze</h2>
+            <p>Time:-<br>10:30 a.m.-12:30 p.m<br>01:30 p.m.-07:00 p.m.</p><br>
+            <p>Venue:- NLHC    </p>
+          </div>
+        </div>
+        <div class="tcontainer tright">
+          <div class="tcontent">
+            <h2>Aavishkar Round-1</h2>
+            <p>Time:-<br>10:30 a.m-11:30 p.m</p><br>
+            <p>Venue:- NLHC    </p>
+          </div>
+        </div>
+        <div class="tcontainer tleft">
+          <div class="tcontent">
+            <h2>Placement Fever Round-1</h2>
+            <p>Time:-<br>11:30 a.m-12:30 p.m</p><br>
+            <p>Venue:- NLHC    </p>
+          </div>
+        </div>
+        <div class="tcontainer tright">
+          <div class="tcontent">
+            <h2>Sherlocked Round-1</h2>
+            <p>Time:-<br>01:30 p.m-03:00 p.m</p><br>
+            <p>Venue:- NLHC    </p>
+          </div>
+        </div>
+        <div class="tcontainer tleft">
+          <div class="tcontent">
+            <h2>CS GO Gaming</h2>
+            <p>Time:-<br>01:30 p.m-08:00p.m</p><br>
+            <p>Venue:- NLHC    </p>
+          </div>
+        </div>
+        <div class="tcontainer tright">
+          <div class="tcontent">
+            <h2>CodEE Round-1</h2>
+            <p>Time:-<br>03:00 p.m.-06:00 p.m.</p><br>
+            <p>Venue:- NLHC    </p>
+          </div>
+        </div>
+        <div class="tcontainer tleft">
+          <div class="tcontent">
+            <h2>Marketing Roadies</h2>
+            <p>Time:-<br>04:00 p.m-07:00 p.m</p><br>
+            <p>Venue:- NLHC    </p>
+          </div>
+        </div>
+        <div class="tcontainer tright">
+          <div class="tcontent">
+            <h2>Treasure Hunt</h2>
+            <p>Time:-<br>06:00 p.m-09:00p.m</p><br>
+            <p>Venue:- NLHC    </p>
+          </div>
+        </div>
+        <div class="tcontainer tleft">
+          <div class="tcontent">
+            <h2>Placement Fever Round-2</h2>
+            <p>Time:-<br>07:00 p.m-09:00 p.m</p><br>
+            <p>Venue:- NLHC    </p>
+          </div>
+        </div>
+        <div class="tcontainer tright">
+          <div class="tcontent">
+            <h2>Auction Villa</h2>
+            <p>Time:-<br>08:30 p.m-11:30p.m</p><br>
+            <p>Venue:- NLHC    </p>
+          </div>
+        </div>
+      </div>
+
+      <div id="day2" class="timeline" style="display: none;">
+        <div class="tcontainer tleft">
+          <div class="tcontent">
+            <h2>Placement Fever Final Round</h2>
+            <p>Time:-<br>08:00 a.m-09:30 a.m</p><br>
+            <p>Venue:- NLHC    </p>
+          </div>
+        </div>
+        <div class="tcontainer tright">
+          <div class="tcontent">
+            <h2>CodEE Final Round</h2>
+            <p>Time:-<br>09:30 a.m-12:30 p.m</p><br>
+            <p>Venue:- NLHC    </p>
+          </div>
+        </div>
+        <div class="tcontainer tleft">
+          <div class="tcontent">
+            <h2>Marketing Roadies Final Round</h2>
+            <p>Time:-<br>09:30 a.m-12:30 p.m</p><br>
+            <p>Venue:- NLHC    </p>
+          </div>
+        </div>
+        <div class="tcontainer tright">
+          <div class="tcontent">
+            <h2>RoboSoccer 2.0/Laser Maze</h2>
+            <p>Time:-<br>10:00 a.m-12:30 p.m<br>01:30 p.m-06:00 p.m</p><br>
+            <p>Venue:- NLHC    </p>
+          </div>
+        </div>
+        <div class="tcontainer tleft">
+          <div class="tcontent">
+            <h2>Sherlocked Final Round</h2>
+            <p>Time:-<br>10:30 a.m-12:30 p.m</p><br>
+            <p>Venue:- NLHC    </p>
+          </div>
+        </div>
+        <div class="tcontainer tright">
+          <div class="tcontent">
+            <h2>CS-GO Gaming</h2>
+            <p>Time:-<br>01:30 p.m-06:00 p.m</p><br>
+            <p>Venue:- NLHC    </p>
+          </div>
+        </div>
+        <div class="tcontainer tleft">
+          <div class="tcontent">
+            <h2>Technovation</h2>
+            <p>Time:-<br>02:00 p.m-05:00 p.m</p><br>
+            <p>Venue:- NLHC    </p>
+          </div>
+        </div>
+        <div class="tcontainer tright">
+          <div class="tcontent">
+            <h2>Aavishkar Final Round</h2>
+            <p>Time:-<br>02:00 p.m-06:00 p.m</p><br>
+            <p>Venue:- NLHC    </p>
+          </div>
+        </div>
+       </div>
+    </div>
+    <!-- schedule ends -->
+    <div id="contacts" class="container-fluid  contacts" style="padding-top:70px;padding-bottom:120px; background-size: cover;">
+      <h1 class="text-center">Our Team</h1>
+      <hr>
+
+      <div class="row col-md-10 m-auto justify-content-md-center">
+        <div class="col-md-3 col-sm-4">
+          <div class="team-member">
+            <div class="team-img">
+              <img src="https://scontent.fpat1-1.fna.fbcdn.net/v/t1.0-9/49778687_623485778092888_6253394867406241792_n.jpg?_nc_cat=102&_nc_ht=scontent.fpat1-1.fna&oh=acadaef548c8535d48b7530589203b81&oe=5CD59EFD" alt="team member"
+                class="img-fluid mx-auto d-block img-frame img-thumbnail flex-container">
+            </div>
+            <div class="team-hover">
+              <div class="desk">
+                <h4>Rohit Yadav</h4>
+                <p> <b>Contacts</b>9162819781</p>
+
+              </div>
+              <div class="s-link">
+                <a href="https://www.facebook.com/profile.php?id=100012944140871"><i id="social-fb" class="fab fa-facebook-f social"> </i></a>
+                <a href="#"><i id="social-em" class="fab fa-linkedin-in social"> </i></a>
+
+              </div>
+            </div>
+          </div>
+          <div class="team-title text-center">
+            <h5>Rohit Yadav</h5>
+            <p>Co-ordinator</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-4">
+          <div class="team-member">
+            <div class="team-img">
+              <img src="https://scontent.fpat1-1.fna.fbcdn.net/v/t1.0-9/31646694_841730549355421_7879612894629855232_n.jpg?_nc_cat=103&_nc_ht=scontent.fpat1-1.fna&oh=42aedce30146a7d8d580a0519d6db2ac&oe=5CB8ACD2" alt="team member"
+                class="img-fluid mx-auto d-block img-frame img-thumbnail flex-container">
+            </div>
+            <div class="team-hover">
+              <div class="desk">
+                <h4>Rahul Kumawat</h4>
+                <p> <b>Contacts</b> 9162833800</p>
+
+              </div>
+              <div class="s-link">
+                <a href="https://www.facebook.com/profile.php?id=100005554513789"><i id="social-fb" class="fab fa-facebook-f social"> </i></a>
+                <a href="#"><i id="social-em" class="fab fa-linkedin-in social"> </i></a>
+
+              </div>
+            </div>
+          </div>
+          <div class="team-title text-center">
+            <h5>Rahul Kumawat</h5>
+            <p>Co-ordinator</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-4">
+          <div class="team-member">
+            <div class="team-img">
+              <img src="https://scontent-bom1-1.xx.fbcdn.net/v/t1.0-9/24991382_836028136579061_1787453315281390345_n.jpg?_nc_cat=104&_nc_ht=scontent-bom1-1.xx&oh=582c0fddee78b80434465989fafb3adb&oe=5CC9D3F5" alt="team member"
+                class="img-fluid mx-auto d-block img-frame img-thumbnail flex-container">
+            </div>
+            <div class="team-hover">
+              <div class="desk">
+                <h4>Rahul Kumar</h4>
+                <p> <b>Contacts</b>9162818083</p>
+
+              </div>
+              <div class="s-link">
+                <a href="https://www.facebook.com/rahulkumar10m"><i id="social-fb" class="fab fa-facebook-f social"> </i></a>
+                <a href="#"><i id="social-em" class="fab fa-linkedin-in social"> </i></a>
+
+              </div>
+            </div>
+          </div>
+          <div class="team-title text-center">
+            <h5>Rahul Kumar</h5>
+            <p>Co-ordinator</p>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-4">
+          <div class="team-member">
+            <div class="team-img">
+              <img src="https://scontent.fpat1-1.fna.fbcdn.net/v/t1.0-9/26168348_407704536341110_8709243376446754447_n.jpg?_nc_cat=100&_nc_ht=scontent.fpat1-1.fna&oh=c948ee6fad5db3c5b7d6e5a8b5447a3f&oe=5CBA0486" alt="team member"
+                class="img-fluid mx-auto d-block img-frame img-thumbnail flex-container">
+            </div>
+            <div class="team-hover">
+              <div class="desk">
+                <h4>Ayushi Agrawal</h4>
+                <p> <b>Contacts</b>9413186978</p>
+
+              </div>
+              <div class="s-link">
+                <a href="https://www.facebook.com/profile.php?id=100013047018107"><i id="social-fb" class="fab fa-facebook-f social"> </i></a>
+                <a href="#"><i id="social-em" class="fab fa-linkedin-in social"> </i></a>
+
+              </div>
+            </div>
+          </div>
+          <div class="team-title text-center">
+            <h5>Ayushi Agrawal</h5>
+            <p>Co-ordinator</p>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+
+    <script>
+      $('.nav-link').click(function () {
+        var sectionTo = $(this).attr('href');
+        $('html, body').animate({
+          scrollTop: $(sectionTo).offset().top
+        }, 1000);
+      });
+
+
+      ! function (a) {
+        "use strict";
+        "function" == typeof define && define.amd ? define(["jquery"], a) : a(jQuery)
+      }(function (a) {
+        "use strict";
+
+        function b(a) {
+          if (a instanceof Date) return a;
+          if (String(a).match(g)) return String(a).match(/^[0-9]*$/) && (a = Number(a)), String(a).match(/\-/) && (a =
+            String(a).replace(/\-/g, "/")), new Date(a);
+          throw new Error("Couldn't cast `" + a + "` to a date object.")
+        }
+
+        function c(a) {
+          var b = a.toString().replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
+          return new RegExp(b)
+        }
+
+        function d(a) {
+          return function (b) {
+            var d = b.match(/%(-|!)?[A-Z]{1}(:[^;]+;)?/gi);
+            if (d)
+              for (var f = 0, g = d.length; f < g; ++f) {
+                var h = d[f].match(/%(-|!)?([a-zA-Z]{1})(:[^;]+;)?/),
+                  j = c(h[0]),
+                  k = h[1] || "",
+                  l = h[3] || "",
+                  m = null;
+                h = h[2], i.hasOwnProperty(h) && (m = i[h], m = Number(a[m])), null !== m && ("!" === k && (m = e(l,
+                    m)),
+                  "" === k && m < 10 && (m = "0" + m.toString()), b = b.replace(j, m.toString()))
+              }
+            return b = b.replace(/%%/, "%")
+          }
+        }
+
+        function e(a, b) {
+          var c = "s",
+            d = "";
+          return a && (a = a.replace(/(:|;|\s)/gi, "").split(/\,/), 1 === a.length ? c = a[0] : (d = a[0], c = a[1])),
+            Math.abs(b) > 1 ? c : d
+        }
+        var f = [],
+          g = [],
+          h = {
+            precision: 100,
+            elapse: !1,
+            defer: !1
+          };
+        g.push(/^[0-9]*$/.source), g.push(/([0-9]{1,2}\/){2}[0-9]{4}( [0-9]{1,2}(:[0-9]{2}){2})?/.source), g.push(
+          /[0-9]{4}([\/\-][0-9]{1,2}){2}( [0-9]{1,2}(:[0-9]{2}){2})?/.source), g = new RegExp(g.join("|"));
+        var i = {
+            Y: "years",
+            m: "months",
+            n: "daysToMonth",
+            d: "daysToWeek",
+            w: "weeks",
+            W: "weeksToMonth",
+            H: "hours",
+            M: "minutes",
+            S: "seconds",
+            D: "totalDays",
+            I: "totalHours",
+            N: "totalMinutes",
+            T: "totalSeconds"
+          },
+          j = function (b, c, d) {
+            this.el = b, this.$el = a(b), this.interval = null, this.offset = {}, this.options = a.extend({}, h),
+              this.instanceNumber =
+              f.length, f.push(this), this.$el.data("countdown-instance", this.instanceNumber), d && ("function" ==
+                typeof d ? (this.$el.on("update.countdown", d), this.$el.on("stoped.countdown", d), this.$el.on(
+                  "finish.countdown", d)) : this.options = a.extend({}, h, d)), this.setFinalDate(c), this.options.defer ===
+              !1 && this.start()
+          };
+        a.extend(j.prototype, {
+          start: function () {
+            null !== this.interval && clearInterval(this.interval);
+            var a = this;
+            this.update(), this.interval = setInterval(function () {
+              a.update.call(a)
+            }, this.options.precision)
+          },
+          stop: function () {
+            clearInterval(this.interval), this.interval = null, this.dispatchEvent("stoped")
+          },
+          toggle: function () {
+            this.interval ? this.stop() : this.start()
+          },
+          pause: function () {
+            this.stop()
+          },
+          resume: function () {
+            this.start()
+          },
+          remove: function () {
+            this.stop.call(this), f[this.instanceNumber] = null, delete this.$el.data().countdownInstance
+          },
+          setFinalDate: function (a) {
+            this.finalDate = b(a)
+          },
+          update: function () {
+            if (0 === this.$el.closest("html").length) return void this.remove();
+            var b, c = void 0 !== a._data(this.el, "events"),
+              d = new Date;
+            b = this.finalDate.getTime() - d.getTime(), b = Math.ceil(b / 1e3), b = !this.options.elapse && b <
+              0 ?
+              0 : Math.abs(b), this.totalSecsLeft !== b && c && (this.totalSecsLeft = b, this.elapsed = d >=
+                this
+                .finalDate,
+                this.offset = {
+                  seconds: this.totalSecsLeft % 60,
+                  minutes: Math.floor(this.totalSecsLeft / 60) % 60,
+                  hours: Math.floor(this.totalSecsLeft / 60 / 60) % 24,
+                  days: Math.floor(this.totalSecsLeft / 60 / 60 / 24) % 7,
+                  daysToWeek: Math.floor(this.totalSecsLeft / 60 / 60 / 24) % 7,
+                  daysToMonth: Math.floor(this.totalSecsLeft / 60 / 60 / 24 % 30.4368),
+                  weeks: Math.floor(this.totalSecsLeft / 60 / 60 / 24 / 7),
+                  weeksToMonth: Math.floor(this.totalSecsLeft / 60 / 60 / 24 / 7) % 4,
+                  months: Math.floor(this.totalSecsLeft / 60 / 60 / 24 / 30.4368),
+                  years: Math.abs(this.finalDate.getFullYear() - d.getFullYear()),
+                  totalDays: Math.floor(this.totalSecsLeft / 60 / 60 / 24),
+                  totalHours: Math.floor(this.totalSecsLeft / 60 / 60),
+                  totalMinutes: Math.floor(this.totalSecsLeft / 60),
+                  totalSeconds: this.totalSecsLeft
+                }, this.options.elapse || 0 !== this.totalSecsLeft ? this.dispatchEvent("update") : (this.stop(),
+                  this.dispatchEvent("finish")))
+          },
+          dispatchEvent: function (b) {
+            var c = a.Event(b + ".countdown");
+            c.finalDate = this.finalDate, c.elapsed = this.elapsed, c.offset = a.extend({}, this.offset), c.strftime =
+              d(this.offset), this.$el.trigger(c)
+          }
+        }), a.fn.countdown = function () {
+          var b = Array.prototype.slice.call(arguments, 0);
+          return this.each(function () {
+            var c = a(this).data("countdown-instance");
+            if (void 0 !== c) {
+              var d = f[c],
+                e = b[0];
+              j.prototype.hasOwnProperty(e) ? d[e].apply(d, b.slice(1)) : null === String(e).match(
+                /^[$A-Z_][0-9A-Z_$]*$/i) ? (d.setFinalDate.call(d, e), d.start()) : a.error(
+                "Method %s does not exist on jQuery.countdown".replace(/\%s/gi, e))
+            } else new j(this, b[0], b[1])
+          })
+        }
+      });
+
+      // Mobirise Initialization
+      var isBuilder = $('html').hasClass('is-builder');
+
+      function initCountdown() {
+        $(".countdown:not(.countdown-inited)").each(function () {
+          $(this).addClass('countdown-inited').countdown($(this).attr('data-due-date'), function (event) {
+
+            var $days = $(event.target).closest('.countdown-cont').find('div.daysCountdown').attr('title');
+            var $hours = $(event.target).closest('.countdown-cont').find('div.hoursCountdown').attr('title');
+            var $minutes = $(event.target).closest('.countdown-cont').find('div.minutesCountdown').attr('title');
+            var $seconds = $(event.target).closest('.countdown-cont').find('div.secondsCountdown').attr('title');
+            $(this).html(
+              event.strftime([
+                '<div class="row">',
+                '<div class="col-xs-12 col-sm-6 col-md-3">',
+                '<span class="number-wrap">',
+                '<span class="number display-2">%D</span>',
+                '<span mbr-text class="period display-7">', $days, '</span>',
+                '<span class="dot">:</span>',
+                '</span>',
+                '</div>',
+                '<div class="col-xs-12 col-sm-6 col-md-3">',
+                '<span class="number-wrap">',
+                '<span class="number display-2">%H</span>',
+                '<span mbr-text class="period display-7">', $hours, '</span>',
+                '<span class="dot">:</span>',
+                '</span>',
+                '</div>',
+                '<div class="col-xs-12 col-sm-6 col-md-3">',
+                '<span class="number-wrap">',
+                '<span class="number display-2">%M</span>',
+                '<span mbr-text class="period display-7">', $minutes, '</span>',
+                '<span class="dot">:</span>',
+                '</span>',
+                '</div>',
+                '<div class="col-xs-12 col-sm-6 col-md-3">',
+                '<span class="number-wrap">',
+                '<span class="number display-2">%S</span>',
+                '<span mbr-text class="period display-7">', $seconds, '</span>',
+                '</span>',
+                '</div>',
+                '</div>'
+              ].join(''))
+            );
+          });
+        });
+
+        $(".countdown:not(.countdown-inited)").each(function () {
+          $(this).countdown($(this).attr('data-due-date'), function (event) {
+            $(this).text(
+              event.strftime('%D days %H:%M:%S')
+            );
+          });
+        });
+      };
+
+      function changeCountdown(card, value) {
+        var $reg = /\d\d\d\d\/\d\d\/\d\d/g,
+          $target = $(card).find('.countdown');
+        if (value.search($reg) > -1) {
+          $target.removeClass('countdown-inited');
+          initCountdown();
+        }
+      }
+
+      if (isBuilder) {
+        $(document).on('add.cards', function (event) {
+          if ($('.countdown').length != 0) {
+            initCountdown();
+          }
+        }).on('changeParameter.cards', function (event, paramName, value) {
+          if (paramName === 'countdown') {
+            changeCountdown(event.target, value);
+          }
+        });;
+      } else {
+        if ($('.countdown').length != 0) {
+          initCountdown();
+        };
+      }
+    </script>
+
+    {% endblock content %}

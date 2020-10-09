@@ -1,0 +1,147 @@
+
+<!------ Include the above in your HEAD tag ---------->
+
+
+<!------ Include the above in your HEAD tag ---------->
+<html>
+    <head>
+  <title>Profile</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <hr>
+<div class="container bootstrap snippet">
+    <div class="row">
+  		<div class="col-sm-10"><h1>{{ p.admission }}</h1></div>
+    	<div class="col-sm-2"><a href="/web" class="pull-right" ><img style="max-width:400px;max-height:400px" title="profile image" class="img-circle img-responsive text-center" src="http://www.gravatar.com/avatar/28fd20ccec6865e2d5f0e1f4446eb7bf?s=100"><b>Go to Home</b></a></div>
+    </div>
+    <div class="row">
+  		<div class="col-sm-3"><!--left col-->
+
+
+      <div class="text-center">
+        <img src="{{ p.imageurl }}" class="avatar img-circle " alt="avatar">
+      </div></hr><br>
+
+
+          <div class="panel panel-default">
+            <div class="panel-heading">Bucks<i class="fa fa-link fa-1x"></i></div>
+            <div class="panel-body">{{ p.coins }}</div>
+          </div>
+
+
+
+
+        </div><!--/col-3-->
+    	<div class="col-sm-9">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
+              </ul>
+
+
+          <div class="tab-content">
+
+             <div class="tab-pane active" id="home">
+
+               <h2></h2>
+
+               <hr>
+                  <form class="form" action="#" method="post" id="registrationForm">
+                      {% csrf_token %}
+                      <div class="form-group">
+
+                          <div class="col-xs-6">
+                              <label for="name"><h4>Name</h4></label>
+                              <input type="text" class="form-control" value="{{ p.name }}" name="id_name" id="id_name" placeholder="name" required title="enter your name .">
+                          </div>
+                      </div>
+
+
+                      <div class="form-group">
+                          <div class="col-xs-6">
+                             <label for="phone"><h4>Mobile</h4></label>
+                              <input type="text" class="form-control" value="{{ p.phone }}" name="id_phone" id="id_phone" placeholder="enter whatsapp mobile number" required title="enter your mobile number if any.">
+                          </div>
+                      </div>
+                      <div class="form-group">
+
+                          <div class="col-xs-6">
+                              <label for="branch"><h4>Branch</h4></label>
+                              <input type="text" class="form-control" value="{{ p.branch }}" name="id_branch" id="id_branch" placeholder="enter your branch" required title="enter your branch.">
+                          </div>
+                      </div>
+
+                      <div class="form-group">
+
+                          <div class="col-xs-6">
+                            <label for="admission"><h4>Admission number</h4></label>
+                              <input type="text" class="form-control" value="{{ p.admission }}" name="id_admission" id="id_admisiion" placeholder="enter your admission number" required title="enter your admission number.">
+                          </div>
+                      </div>
+                      <div class="form-group">
+                           <div class="col-xs-12">
+                                <br>
+                              	<button id="profile-submit"class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Save</button>
+                               	<button href="/web/profile"class="btn btn-lg" type="reset"><i class="glyphicon glyphicon-repeat"></i> Reset</button>
+                            </div>
+                      </div>
+              	</form>
+
+             </div><!--/tab-pane-->
+
+          </div><!--/tab-content-->
+
+        </div><!--/col-9-->
+    </div><!--/row-->
+
+    <script>
+    $(document).ready(function() {
+
+
+var readURL = function(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('.avatar').attr('src', e.target.result);
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+
+$(".file-upload").on('change', function(){
+    readURL(this);
+});
+});
+
+
+         $("#profile-submit").click(function(event) {
+
+//Fetch form to apply custom Bootstrap validation
+var form = $("#registrationForm")
+
+if (form[0].checkValidity() === false) {
+  event.preventDefault()
+  event.stopPropagation()
+}
+form.addClass('was-validated');
+
+});
+    </script>
+</body>
+
+
+</html>
